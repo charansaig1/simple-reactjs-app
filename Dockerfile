@@ -35,7 +35,6 @@ COPY . .
 # Run the build script.
 RUN npm install
 
-RUN npm run build
 
 ################################################################################
 # # Create a new stage to run the application with minimal runtime dependencies
