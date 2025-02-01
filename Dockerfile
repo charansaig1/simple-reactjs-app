@@ -21,8 +21,7 @@ COPY package*.json ./
 
 ################################################################################
 
-# Create a stage for building the application.
-FROM deps as build
+
 
 # Download additional development dependencies before building, as some projects require
 # "devDependencies" to be installed to build. If you don't need this, remove this step.
