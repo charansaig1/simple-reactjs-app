@@ -27,7 +27,7 @@ jobs:
       - name: build a docker image
         run: |
           npm install
-          docker build -t docker1img:vi1 .
+          docker build -t docker1img:vi2 .
 
       - name: environment variables
         run: docker run --env-file .env docker1img:vi1

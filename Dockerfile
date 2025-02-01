@@ -16,6 +16,9 @@ FROM node:${NODE_VERSION}-alpine as base
 WORKDIR /usr/src/app
 
 
+# Copy package.json and package-lock.json first for caching
+COPY package*.json ./
+
 ################################################################################
 
 # Create a stage for building the application.
@@ -36,18 +39,14 @@ RUN npm install
 RUN npm run build
 
 ################################################################################
-# Create a new stage to run the application with minimal runtime dependencies
-# where the necessary files are copied from the build stage.
-FROM base as final
+# # Create a new stage to run the application with minimal runtime dependencies
+# # where the necessary files are copied from the build stage.
+# FROM base as final
 
-# Use production node environment by default.
-ENV NODE_ENV production
+# # Run the application as a non-root user.
+# USER node
 
-# Run the application as a non-root user.
-USER node
 
-# Copy package.json so that package manager commands can be used.
-COPY package.json .
 
 
 # # Expose the port that the application listens on.
