@@ -48,8 +48,8 @@ USER node
 COPY package.json .
 
 
-# Expose the port that the application listens on.
-EXPOSE 3000
+# # Expose the port that the application listens on.
+# EXPOSE 3000
 
 # Run the application.
 CMD npm start
