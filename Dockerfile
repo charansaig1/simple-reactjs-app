@@ -10,7 +10,8 @@ ARG NODE_VERSION=22.13.0
 
 ################################################################################
 # Use node image for base image for all stages.
-FROM node:${NODE_VERSION}-alpine as base
+FROM node:16
+
 
 # Set working directory for all build stages.
 WORKDIR /usr/src/app
@@ -50,6 +51,8 @@ RUN npm run build
 
 # # Expose the port that the application listens on.
 # Expose the port that the application listens on.
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 ARG APP_PORT
 EXPOSE ${APP_PORT}
 
