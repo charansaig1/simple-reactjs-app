@@ -35,11 +35,13 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 # Run the build script.
 RUN npm install
 
-RUN npm run build
 
 
 # Copy the rest of the source files into the image.
 COPY . .
+
+# Run the build step
+RUN npm run build
 
 
 ################################################################################
