@@ -6,7 +6,6 @@
 
 **/.classpath
 **/.dockerignore
-**/.env
 **/.git
 **/.gitignore
 **/.project
@@ -34,4 +33,4 @@ LICENSE
 README.md
 node_modules
 .git
-.env
+

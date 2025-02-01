@@ -31,12 +31,16 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci
 
-# Copy the rest of the source files into the image.
-COPY . .
+
 # Run the build script.
 RUN npm install
 
 RUN npm run build
+
+
+# Copy the rest of the source files into the image.
+COPY . .
+
 
 ################################################################################
 # # Create a new stage to run the application with minimal runtime dependencies
@@ -55,10 +59,13 @@ COPY .env .env
 # Set environment variable for the port from .env file
 RUN export $(cat .env | grep APP_PORT) && echo "Using port $APP_PORT"
 
-# Set the port for the application.
-ENV NODE_OPTIONS=--openssl-legacy-provider
+# Use ARG to read from build-time variables
+ARG PORT
 
-EXPOSE $APP_PORT
+# Set the port for the application.
+
+ENV PORT=${APP_PORT}
+EXPOSE ${APP_PORT}
 
 # Run the application.
 CMD npm start
