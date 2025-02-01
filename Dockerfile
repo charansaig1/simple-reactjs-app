@@ -40,7 +40,7 @@ RUN npm install
 # Copy the rest of the source files into the image.
 COPY . .
 
-# Run the build step
+# Run the build step()
 RUN npm run build
 
 
