@@ -19,8 +19,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Set up Node.js (for building the React app)
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
       - name: build a docker image
-        run: docker build -t docker1img:vi1 .
+        run: |
+          npm install
+          docker build -t docker1img:vi1 .
 
       - name: environment variables
         run: docker run --env-file .env docker1img:vi1
