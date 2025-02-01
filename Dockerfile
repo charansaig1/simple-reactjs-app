@@ -49,12 +49,14 @@ RUN npm run build
 
 
 
-# # Expose the port that the application listens on.
-# Expose the port that the application listens on.
-ENV NODE_OPTIONS=--openssl-legacy-provider
+# Copy the .env file
+COPY .env .env
 
-ARG APP_PORT
-EXPOSE ${APP_PORT}
+# Set environment variable for the port from .env file
+RUN export $(cat .env | grep APP_port) && echo "Using port $APP_PORT"
+
+
+EXPOSE $APP_PORT
 
 # Run the application.
 CMD npm start
