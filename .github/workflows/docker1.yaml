@@ -34,3 +34,19 @@ jobs:
 
       - name: list of docker images
         run: docker images
+
+      - name: Pull Docker image
+        run: docker pull charansaig1/simple-reactjs-app:d6c75bad50ea
+
+      - name: create new Docker containerby usig the image
+        run: docker run -d -p 3000:3000 --name sampleReactContainer d6c75bad50ea
+
+      - name: check Docker container
+        run: |
+          echo "list of Docker containers"
+          docker ps -a
+
+          echo "list of Docker containers"
+          docker stop sampleReactContainer
+
+          docker ps -a
