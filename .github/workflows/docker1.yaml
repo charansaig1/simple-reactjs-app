@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -24,9 +25,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+        # Step 2: Set up Docker
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
+      # Step 3: Build Docker image
       - name: build a docker image
         run: |
           npm install
@@ -35,18 +38,18 @@ jobs:
       - name: list of docker images
         run: docker images
 
-      - name: Pull Docker image
-        run: docker pull charansaig1/simple-reactjs-app:d6c75bad50ea
-
-      - name: create new Docker containerby usig the image
-        run: docker run -d -p 3000:3000 --name sampleReactContainer d6c75bad50ea
-
-      - name: check Docker container
+      # Step 4: Get Docker image ID
+      - name: Get Docker image ID
+        id: image_id
         run: |
-          echo "list of Docker containers"
+          IMAGE_ID=$(docker images -q docker1img:vi2)
+          echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
+
+      - name: Create Docker container
+        run: |
+          docker run -d --name simpleRectjs ${{ env.IMAGE_ID }}
           docker ps -a
 
-          echo "list of Docker containers"
-          docker stop sampleReactContainer
-
-          docker ps -a
+        # step 5: push the docker image to docker
+      - name: stop docker container
+        run: docker stop simpleRectjs
