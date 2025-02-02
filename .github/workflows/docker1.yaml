@@ -64,7 +64,7 @@ jobs:
 
           # Run the container with the correct port mapping
           docker run -d --name simpleRectjs -p ${APP_PORT}:${APP_PORT} ${{ steps.image_id.outputs.IMAGE_ID }}
-          docker ps -a
+          docker ps -s
 
       - name: Stop Docker container
         run: docker stop simpleRectjs
