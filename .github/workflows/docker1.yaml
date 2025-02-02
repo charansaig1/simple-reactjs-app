@@ -47,7 +47,8 @@ jobs:
 
       - name: Create Docker container
         run: |
-          docker run -d --name simpleRectjs ${{ env.IMAGE_ID }}
+          echo "Use the port value from the .env file"
+          docker run -d --name simpleRectjs -p ${APP_PORT}:${APP_PORT} ${{ steps.image_id.outputs.IMAGE_ID }}
           docker ps -a
 
         # step 5: push the docker image to docker
