@@ -22,26 +22,25 @@ jobs:
         with:
           node-version: "14"
 
+      #steep 2: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 2: Set up Docker
+      # Step 3: Set up Docker
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # Step 3: Build Docker image
+      # Step 4: Build Docker image and list
       - name: Build a Docker image
         run: |
-          docker build -t docker1img:vi2 .
-
-      - name: List Docker images
-        run: docker images
+          docker build -t docker1img:latest .
+          docker images
 
       # Step 4: Get Docker image ID
       - name: Get Docker image ID
         id: image_id
         run: |
-          IMAGE_ID=$(docker images -q docker1img:vi2)
+          IMAGE_ID=$(docker images -q docker1img:latest)
           echo "IMAGE_ID=${IMAGE_ID}"
           echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
           echo "::set-output name=IMAGE_ID::$IMAGE_ID"
