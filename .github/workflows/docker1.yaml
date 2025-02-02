@@ -25,17 +25,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-        # Step 2: Set up Docker
-
+      # Step 2: Set up Docker
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+
       # Step 3: Build Docker image
-      - name: build a docker image
+      - name: Build a Docker image
         run: |
-          npm install
           docker build -t docker1img:vi2 .
 
-      - name: list of docker images
+      - name: List Docker images
         run: docker images
 
       # Step 4: Get Docker image ID
@@ -43,7 +42,10 @@ jobs:
         id: image_id
         run: |
           IMAGE_ID=$(docker images -q docker1img:vi2)
+          echo "IMAGE_ID=${IMAGE_ID}"
           echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
+          echo "::set-output name=IMAGE_ID::$IMAGE_ID"
+
       # Step 5: Create Docker container using the port from the .env file
       - name: Create Docker container
         run: |
@@ -52,13 +54,18 @@ jobs:
           source .env
           set +a
 
-          # Ensure APP_PORT is set
           echo "Using APP_PORT=${APP_PORT} from .env file"
+          echo "Using IMAGE_ID=${{ steps.image_id.outputs.IMAGE_ID }}"
 
-          echo "Use the port value from  the .env file"
+          # Ensure IMAGE_ID is set
+          if [[ -z "${{ steps.image_id.outputs.IMAGE_ID }}" ]]; then
+            echo "Error: IMAGE_ID is empty!"
+            exit 1
+          fi
+
+          # Run the container with the correct port mapping
           docker run -d --name simpleRectjs -p ${APP_PORT}:${APP_PORT} ${{ steps.image_id.outputs.IMAGE_ID }}
           docker ps -a
 
-        # step 5: push the docker image to docker
-      - name: stop docker container
+      - name: Stop Docker container
         run: docker stop simpleRectjs
