@@ -44,9 +44,17 @@ jobs:
         run: |
           IMAGE_ID=$(docker images -q docker1img:vi2)
           echo "IMAGE_ID=${IMAGE_ID}" >> $GITHUB_ENV
-
+      # Step 5: Create Docker container using the port from the .env file
       - name: Create Docker container
         run: |
+          # Load .env file
+          set -a
+          source .env
+          set +a
+
+          # Ensure APP_PORT is set
+          echo "Using APP_PORT=${APP_PORT} from .env file"
+
           echo "Use the port value from  the .env file"
           docker run -d --name simpleRectjs -p ${APP_PORT}:${APP_PORT} ${{ steps.image_id.outputs.IMAGE_ID }}
           docker ps -a
