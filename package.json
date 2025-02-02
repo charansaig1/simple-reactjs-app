@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://aditya-sridhar.github.io/simple-reactjs-app",
   "dependencies": {
+    "autoprefixer": "^10.4.20",
     "axios": "^0.18.0",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
@@ -24,8 +25,8 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
+      "defaults",
+      "not ie 11",
       "not op_mini all"
     ],
     "development": [
